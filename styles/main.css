@@ -1,0 +1,130 @@
+#page-home {
+    background-color: #222831;
+
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    font-family: 'Poiret One', sans-serif;
+}
+
+
+header {
+    font-size: 26px;
+    font-weight: bold;
+    color: white;
+
+    margin-bottom: 20px;
+}
+
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.calc-container {
+    background-color: #393e46;
+    width: 550px;
+    height: 650px;
+
+    border-radius: 8px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.calc-container .display-container {
+    background-color: #EEEEEE;
+    width: auto;
+    height: 180px;
+
+    margin: 20px 20px;
+    border-radius: 8px;
+
+    font-size: 40px;
+    font-weight: bold;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+.calc-container .display-container .display {
+    background-color: #EEEEEE;
+    /* background-color: lightpink; */
+    height: 60px;
+
+    margin: 0 10px;
+    padding: 15px 0 0;
+
+    justify-content: center;
+    text-align: right;
+}
+
+.calc-container .display-container .display#middle {
+    border-top: 1px solid #393e464f;
+    border-bottom: 1px solid #393e464f;
+}
+
+.calc-container .buttons-container {
+    margin: 0 20px 20px;
+    height: 100%;
+
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(4, minmax(10px, 1fr));
+    grid-template-rows: repeat(4, minmax(30px, 1fr));
+    grid-template-areas: 
+        "num7 num8 num9 opDi"
+        "num4 num5 num6 opMu"
+        "num1 num2 num3 opMi"
+        "num0 opDot opEq opPl"
+    ;
+}
+
+.number#num0 { grid-area: num0; }
+.number#num1 { grid-area: num1; }
+.number#num2 { grid-area: num2; }
+.number#num3 { grid-area: num3; }
+.number#num4 { grid-area: num4; }
+.number#num5 { grid-area: num5; }
+.number#num6 { grid-area: num6; }
+.number#num7 { grid-area: num7; }
+.number#num8 { grid-area: num8; }
+.number#num9 { grid-area: num9; }
+.operator#oprDiv { grid-area: opDi; }
+.operator#oprMult { grid-area: opMu; }
+.operator#oprMinus { grid-area: opMi; }
+.operator#oprPlus { grid-area: opPl; }
+.operator#oprDot { grid-area: opDot; }
+.operator#oprEqual { grid-area: opEq; }
+
+.calc-container .buttons-container button {
+    background-color: #2228317f;
+    border-radius: 8px;
+    border: none;
+
+    color: white;
+    font-family: 'Poiret One', sans-serif;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.calc-container .buttons-container .number {
+    /* border: 1px solid white; */
+    box-shadow: 2px 2px #EEEEEE7f;
+}
+
+.calc-container .buttons-container .operator {
+    box-shadow: 2px 2px #32e0c47f;
+    color: #32e0c4;
+}
+
