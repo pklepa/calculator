@@ -80,13 +80,13 @@ main {
 
     display: grid;
     gap: 20px;
-    grid-template-columns: repeat(4, minmax(10px, 1fr));
+    grid-template-columns: repeat(5, minmax(10px, 1fr));
     grid-template-rows: repeat(4, minmax(30px, 1fr));
     grid-template-areas: 
-        "num7 num8 num9 opDi"
-        "num4 num5 num6 opMu"
-        "num1 num2 num3 opMi"
-        "num0 opDot opEq opPl"
+        "num7 num8 num9 opDi opCe"
+        "num4 num5 num6 opMu opSq"
+        "num1 num2 num3 opMi opEq"
+        "num0 opDot opPlMi opPl opEq"
     ;
 }
 
@@ -100,12 +100,15 @@ main {
 .number#num7 { grid-area: num7; }
 .number#num8 { grid-area: num8; }
 .number#num9 { grid-area: num9; }
+.operator#oprCe { grid-area: opCe; }
 .operator#oprDiv { grid-area: opDi; }
 .operator#oprMult { grid-area: opMu; }
 .operator#oprMinus { grid-area: opMi; }
 .operator#oprPlus { grid-area: opPl; }
 .operator#oprDot { grid-area: opDot; }
-.operator#oprEqual { grid-area: opEq; }
+.operator#oprPlusMinus { grid-area: opPlMi; }
+.operator#oprSqroot { grid-area: opSq; }
+.operator#oprEqual { grid-area: opEq; color: orange; box-shadow: 2px 2px orange;  }
 
 .calc-container .buttons-container button {
     background-color: #2228317f;
@@ -118,6 +121,11 @@ main {
     font-weight: 600;
 }
 
+.calc-container .buttons-container button:hover, 
+.calc-container .buttons-container button.active {
+    background-color: #222831ff;
+}
+
 .calc-container .buttons-container .number {
     /* border: 1px solid white; */
     box-shadow: 2px 2px #EEEEEE7f;
@@ -127,4 +135,5 @@ main {
     box-shadow: 2px 2px #32e0c47f;
     color: #32e0c4;
 }
+
 
