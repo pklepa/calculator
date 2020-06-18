@@ -44,7 +44,7 @@ main {
 .calc-container .display-container {
     background-color: #EEEEEE;
     width: auto;
-    height: 180px;
+    height: 120px;
 
     margin: 20px 20px;
     border-radius: 8px;
@@ -60,9 +60,11 @@ main {
 .calc-container .display-container .display {
     background-color: #EEEEEE;
     /* background-color: lightpink; */
+    width: auto;
+    max-width: 465px;
     height: 60px;
 
-    margin: 0 10px;
+    margin: 0 20px;
     padding: 15px 0 0;
 
     justify-content: center;
@@ -70,8 +72,9 @@ main {
 }
 
 .calc-container .display-container .display#middle {
-    border-top: 1px solid #393e464f;
     border-bottom: 1px solid #393e464f;
+    font-size: 20px;
+    color: lightslategray;
 }
 
 .calc-container .buttons-container {
