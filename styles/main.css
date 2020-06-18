@@ -54,14 +54,11 @@ main {
 
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
 }
 
 .calc-container .display-container .display {
     background-color: #EEEEEE;
-    /* background-color: lightpink; */
-    width: auto;
-    max-width: 465px;
     height: 60px;
 
     margin: 0 20px;

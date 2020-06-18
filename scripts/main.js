@@ -29,10 +29,18 @@ operators.forEach(operator => {
 
 // - Functions
 function handleNum(e) {
-    if (lastBtnPressed == 'operator') {
+
+    if (lastBtnPressed == 'operator' || mainDisplay.textContent == '0') {
         mainDisplay.textContent = e.target.textContent;
     } else {
         mainDisplay.textContent += e.target.textContent;
+
+        // If the width of the display is higher than the preset value, ignore last number (as to prevent visual overflow)
+        if(getComputedStyle(mainDisplay).width != '470px') {
+            let auxArr = Array.from(mainDisplay.textContent);
+            auxArr.pop();
+            mainDisplay.textContent = auxArr.join('');
+        }
     }
 
     lastBtnPressed = 'number';
@@ -63,7 +71,9 @@ function handleOperator(e) {
             break;
 
         case 'oprEqual':
-            solveEquation();
+            if(!equationSolved){
+                solveEquation();
+            }
 
             lastBtnPressed = 'operator';
             break;
@@ -115,17 +125,13 @@ function solveEquation() {
     middleDisplay.textContent += ' ' + mainDisplay.textContent;
     equation.push(Number(mainDisplay.textContent));
 
-    // If the last entry wasn't a number, return Syntax Error
-    if (typeof equation[equation.length - 1] != 'number') {
-        return 'Syntax Err0r'
-    }
-
 
     let highPrioOperations = equation.filter(el => el == 'divide' || el == 'multiply');
     let lowPrioOperations = equation.filter(el => el == 'add' || el == 'subtract');
     let orderedOperations = highPrioOperations.concat(lowPrioOperations);
 
 
+    // Iterates the equation until solution is found, solving higher priority operations first
     while (equation.length > 1) {
         let aux = equation.indexOf(orderedOperations[0]);
 
