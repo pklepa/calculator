@@ -22,6 +22,14 @@ operators.forEach(operator => {
     operator.addEventListener('click', handleOperator);
 })
 
+window.addEventListener('keydown', function(e) {
+    // It is important to test against 'Space' because Number(' ') == 0
+    if ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9].indexOf(Number(e.key)) > -1  && e.code != 'Space') {
+        handleNum(e.key);
+    } else if(['+', '-', '*', '/', '.', 'Enter', 'Backspace'].indexOf(e.key) > -1) {
+        handleOperator(e.key);
+    }
+});
 
 
 
@@ -30,10 +38,15 @@ operators.forEach(operator => {
 // - Functions
 function handleNum(e) {
 
+    // There are two ways into this function: either clicking on the number or pressing said num in the keyboard
+    // This 
+    let numberPressed;
+    (e instanceof Event) ? numberPressed = e.target.textContent : numberPressed = e;
+
     if (lastBtnPressed == 'operator' || mainDisplay.textContent == '0') {
-        mainDisplay.textContent = e.target.textContent;
+        mainDisplay.textContent = numberPressed;
     } else {
-        mainDisplay.textContent += e.target.textContent;
+        mainDisplay.textContent += numberPressed;
 
         // If the width of the display is higher than the preset value, ignore last number (as to prevent visual overflow)
         if(getComputedStyle(mainDisplay).width != '470px') {
@@ -48,21 +61,24 @@ function handleNum(e) {
 }
 
 function handleOperator(e) {
-    switch (e.target.id) {
+    let btnElement;
+    (e instanceof Event) ? btnElement = e.target : btnElement = document.querySelector(`button[data-key='${e}']`);
+
+    switch (btnElement.id) {
         case 'oprPlus':
-            pushToEquation(e.target.textContent, 'add');
+            pushToEquation(btnElement.textContent, 'add');
             break;
 
         case 'oprMinus':
-            pushToEquation(e.target.textContent, 'subtract');
+            pushToEquation(btnElement.textContent, 'subtract');
             break;
 
         case 'oprMult':
-            pushToEquation(e.target.textContent, 'multiply');
+            pushToEquation(btnElement.textContent, 'multiply');
             break;
 
         case 'oprDiv':
-            pushToEquation(e.target.textContent, 'divide');
+            pushToEquation(btnElement.textContent, 'divide');
             break;
 
         case 'oprSqroot':
