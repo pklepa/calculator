@@ -139,13 +139,18 @@ function solveEquation() {
         let partial = op[orderedOperations[0]](equation[aux - 1], equation[aux + 1]);
 
         // Removes the numbers and operator envolved, includes rthe
-        equation.splice(aux - 1, 3, partial);
+        equation.splice(aux - 1, 5, partial);
 
         orderedOperations.shift();
     }
 
+    // If the number is too high, force it to scientific notation (if its already in sci form, truncate it)
+    if (equation[0].toString().length > 13 || equation[0].toString().indexOf('e') != -1) {
+        equation[0] = equation[0].toExponential(3);
+    }
+
     equationSolved = true;
-    mainDisplay.textContent = equation.shift();
+    mainDisplay.textContent = equation.shift(); // shift() to clear the equation array
 }
 
 
