@@ -1,13 +1,13 @@
 // - Global Variables
 const middleDisplay = document.querySelector('.display#middle');
 const mainDisplay = document.querySelector('.display#bottom');
-let activeOperation = {
-    isActive: false,
-    function: '',
-    id: '',
-};
-let first;
-let second;
+
+const clearBtn = document.getElementById('oprCe');
+
+let equation = [];
+
+let lastBtnPressed;
+let equationSolved = false;
 
 
 
@@ -29,90 +29,118 @@ operators.forEach(operator => {
 
 // - Functions
 function handleNum(e) {
-    if (activeOperation.isActive) {
-        activeOperation.isActive = false
-        document.getElementById(activeOperation.id).classList.remove('active');
-
+    if (lastBtnPressed == 'operator') {
         mainDisplay.textContent = e.target.textContent;
     } else {
         mainDisplay.textContent += e.target.textContent;
     }
+
+    lastBtnPressed = 'number';
+    clearBtn.textContent = 'C';
 }
 
 function handleOperator(e) {
-    if (activeOperation.isActive) {
+    switch (e.target.id) {
+        case 'oprPlus':
+            pushToEquation(e.target.textContent, 'add');
+            break;
 
-    } else {
-        console.log(e.target.id)
-        switch(e.target.id){
-            case 'oprPlus':
-                activeOperation.isActive = true;
-                activeOperation.function = op.add;
-                activeOperation.id = e.target.id;
-                e.target.classList.add('active');
-                
-                first = mainDisplay.textContent;
-                break;
+        case 'oprMinus':
+            pushToEquation(e.target.textContent, 'subtract');
+            break;
 
-            case 'oprMinus':
-                activeOperation.isActive = true;
-                activeOperation.function = op.subtract;
-                activeOperation.id = e.target.id;
-                e.target.classList.add('active');
-                
-                first = mainDisplay.textContent;
-                break;
+        case 'oprMult':
+            pushToEquation(e.target.textContent, 'multiply');
+            break;
 
-            case 'oprMult':
-                activeOperation.isActive = true;
-                activeOperation.function = op.multiply;
-                activeOperation.id = e.target.id;
-                e.target.classList.add('active');
+        case 'oprDiv':
+            pushToEquation(e.target.textContent, 'divide');
+            break;
 
-                first = mainDisplay.textContent;
-                break;
+        case 'oprSqroot':
+            mainDisplay.textContent = op.sqroot(Number(mainDisplay.textContent));
+            lastBtnPressed = 'operator';
+            break;
 
-            case 'oprDiv':
-                activeOperation.isActive = true;
-                activeOperation.function = op.divide;
-                activeOperation.id = e.target.id;
-                e.target.classList.add('active');
+        case 'oprEqual':
+            solveEquation();
 
-                first = mainDisplay.textContent;
-                break;
+            lastBtnPressed = 'operator';
+            break;
 
-            case 'oprDot':
+        case 'oprCe':
+            if (clearBtn.textContent == 'CE') {
+                equation = [];
+                middleDisplay.textContent = ''
+            }
+
+            mainDisplay.textContent = ''
+            clearBtn.textContent = 'CE';
+            break;
+
+        case 'oprDot':
+            if (mainDisplay.textContent.indexOf('.') == -1) {
                 mainDisplay.textContent += '.';
-                break;
+            }
+            break;
 
-            case 'oprPlusMinus':
-                mainDisplay.textContent = op.minplus(Number(mainDisplay.textContent));
-                break;
+        case 'oprPlusMinus':
+            mainDisplay.textContent = op.minplus(Number(mainDisplay.textContent));
+            break;
 
-            case 'oprSqroot':
-                mainDisplay.textContent = op.sqroot(Number(mainDisplay.textContent));
-                break;
-
-            case 'oprEqual':
-                let second = mainDisplay.textContent;
-                mainDisplay.textContent = activeOperation.function(Number(first), Number(second));
-                activeOperation.isActive = false;
-                break;
-
-            case 'oprCe':
-                mainDisplay.textContent = '';
-                break;
-
-            default:
-                console.warn('Something went wrong!')
-                break;
-        }
-
-
+        default:
+            console.warn('Something went wrong!')
+            break;
     }
 
 }
 
+
+function pushToEquation(oprString, oprFunc) {
+    if(equationSolved) {
+        middleDisplay.textContent = mainDisplay.textContent + ' ' + oprString;
+        equationSolved = false
+    } else {
+        middleDisplay.textContent += ' ' + mainDisplay.textContent + ' ' + oprString;
+    }
+
+    equation.push(Number(mainDisplay.textContent));
+    equation.push(oprFunc);
+
+    lastBtnPressed = 'operator';
+}
+
+
+function solveEquation() {
+    middleDisplay.textContent += ' ' + mainDisplay.textContent;
+    equation.push(Number(mainDisplay.textContent));
+
+    // If the last entry wasn't a number, return Syntax Error
+    if (typeof equation[equation.length - 1] != 'number') {
+        return 'Syntax Err0r'
+    }
+
+
+    let highPrioOperations = equation.filter(el => el == 'divide' || el == 'multiply');
+    let lowPrioOperations = equation.filter(el => el == 'add' || el == 'subtract');
+    let orderedOperations = highPrioOperations.concat(lowPrioOperations);
+
+
+    while (equation.length > 1) {
+        let aux = equation.indexOf(orderedOperations[0]);
+
+        // Calls the function in the op object for the numbers that are around the operator
+        let partial = op[orderedOperations[0]](equation[aux - 1], equation[aux + 1]);
+
+        // Removes the numbers and operator envolved, includes rthe
+        equation.splice(aux - 1, 3, partial);
+
+        orderedOperations.shift();
+    }
+
+    equationSolved = true;
+    mainDisplay.textContent = equation.shift();
+}
 
 
 // - Helper Functions
