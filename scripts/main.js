@@ -125,7 +125,7 @@ function handleOperator(e) {
 
 function pushToEquation(oprString, oprFunc) {
     // If no number was selected, ignore any operators entries
-    if (mainDisplay.textContent === "" || mainDisplay.textContent === ".") { return }
+    // if (mainDisplay.textContent === "" || mainDisplay.textContent === ".") { return }
 
     // Checks whether the last equation was solved or not (as to clear the equation string in the middleDisplay)
     if(equationSolved) {
@@ -159,10 +159,10 @@ function solveEquation() {
         // Calls the function in the op object for the numbers that are around the operator
         let partial = op[orderedOperations[0]](equation[aux - 1], equation[aux + 1]);
 
-        // Removes the numbers and operator envolved, includes rthe
-        equation.splice(aux - 1, 5, partial);
+        // Removes the numbers and operator envolved in this particular operation and includes the partial result
+        equation.splice(aux - 1, 3, partial);
 
-        orderedOperations.shift();
+        orderedOperations.shift(); // shift() to go to next operation
     }
 
     // If the number is too high, force it to scientific notation (if its already in sci form, truncate it)
