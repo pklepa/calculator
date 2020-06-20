@@ -101,7 +101,7 @@ function handleOperator(e) {
                 middleDisplay.textContent = ''
             }
 
-            mainDisplay.textContent = ''
+            mainDisplay.textContent = ""
             clearBtn.textContent = 'CE';
             break;
 
@@ -125,7 +125,7 @@ function handleOperator(e) {
 
 function pushToEquation(oprString, oprFunc) {
     // If no number was selected, ignore any operators entries
-    // if (mainDisplay.textContent === "" || mainDisplay.textContent === ".") { return }
+    if (mainDisplay.textContent === "" || mainDisplay.textContent === ".") { return }
 
     // Checks whether the last equation was solved or not (as to clear the equation string in the middleDisplay)
     if(equationSolved) {
