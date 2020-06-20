@@ -49,7 +49,7 @@ function handleNum(e) {
         mainDisplay.textContent += numberPressed;
 
         // If the width of the display is higher than the preset value, ignore last number (as to prevent visual overflow)
-        if(getComputedStyle(mainDisplay).width != '470px') {
+        if(getComputedStyle(mainDisplay).width != '370px') {
             let auxArr = Array.from(mainDisplay.textContent);
             auxArr.pop();
             mainDisplay.textContent = auxArr.join('');
@@ -61,6 +61,7 @@ function handleNum(e) {
 }
 
 function handleOperator(e) {
+    // This selection is necessary in order to correctly treat both button clicks and keyboard entries
     let btnElement;
     (e instanceof Event) ? btnElement = e.target : btnElement = document.querySelector(`button[data-key='${e}']`);
 
@@ -123,6 +124,10 @@ function handleOperator(e) {
 
 
 function pushToEquation(oprString, oprFunc) {
+    // If no number was selected, ignore any operators entries
+    if (mainDisplay.textContent === "" || mainDisplay.textContent === ".") { return }
+
+    // Checks whether the last equation was solved or not (as to clear the equation string in the middleDisplay)
     if(equationSolved) {
         middleDisplay.textContent = mainDisplay.textContent + ' ' + oprString;
         equationSolved = false
